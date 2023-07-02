@@ -2,24 +2,32 @@ import React, {useState} from 'react';
 import {Box, Container, Grid, Link, Paper, TextField, Typography} from "@mui/material";
 import LogoName from "../Components/LogoName";
 import LoginButton from "../Components/LoginButton";
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {login} from "../http/userApi";
 import CloseIcon from '@mui/icons-material/Close';
+import {useDispatch} from "react-redux";
+import {setUserData, toggleAuth} from "../Store/slices/userSlice";
 
 
 const Login = () => {
+    // TODO:: validate form
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     async function handleSubmit() {
+
         const res = await login(email, password);
         if (res.success) {
-            console.log(res.body);
-            setError("success!");
-        }
-        else {
+            dispatch(setUserData(res.body));
+            dispatch(toggleAuth());
+            navigate('/', {replace: true});
+        } else {
             const msg = res.body || "Произошла ошибка!";
             setError(msg);
         }
     }
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,7 +45,7 @@ const Login = () => {
                 elevation={2}
 
                 sx={{
-                    p: {xs: 3, sm:6, md: 8}
+                    p: {xs: 3, sm: 6, md: 8}
                 }}
             >
                 <Box maxWidth={180}>
@@ -50,7 +58,7 @@ const Login = () => {
                 {!!error &&
                     <Box sx={{
                         bgcolor: 'error.main',
-                        py:1,
+                        py: 1,
                         width: 1,
                         color: 'error.contrastText',
                         display: 'flex',
@@ -65,7 +73,7 @@ const Login = () => {
                 }
 
 
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
                     <TextField
                         margin="normal"
                         required

@@ -7,6 +7,8 @@ import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Error from "./Pages/Error";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
+import {Provider} from "react-redux";
+import store from './Store/store';
 
 
 function getRouter() {
@@ -59,7 +61,9 @@ function Root() {
 
 function App() {
     return (
-        <RouterProvider router={getRouter()}/>
+        <Provider store={store}>
+            <RouterProvider router={getRouter()}/>
+        </Provider>
     );
 }
 

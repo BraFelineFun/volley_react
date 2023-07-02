@@ -6,12 +6,13 @@ import Container from '@mui/material/Container';
 import LogoName from "./LogoName";
 import PageList from "./PageList";
 import UserAvatarSmall from "./UserAvatarSmall";
-import {Button, Typography} from "@mui/material";
-import LoginIcon from '@mui/icons-material/Login';
+import {Link, Typography} from "@mui/material";
+import {Link as RouterLink} from 'react-router-dom';
 import LoginButton from "./LoginButton";
+import {useSelector} from "react-redux";
 
 function ResponsiveAppBar() {
-    const isAuth = true;
+    const user = useSelector(state => state.user);
     const pages = ['Products', 'Pricing', 'Blog'];  // Общедоступные
                                                     // ЛК отдельно в аватаре
 
@@ -34,11 +35,13 @@ function ResponsiveAppBar() {
 
 
                     <Box sx={{ ml: 'auto', flexGrow: 0 }}>
-                        {isAuth ?
+                        {user.isAuthed ?
                             <UserAvatarSmall/>
                         :
                             <Box>
-                                <LoginButton/>
+                                <Link component={RouterLink} to={'/login'}>
+                                    <LoginButton/>
+                                </Link>
                             </Box>
                         }
                     </Box>

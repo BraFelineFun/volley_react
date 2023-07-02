@@ -1,23 +1,24 @@
 import React from 'react';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import {ListItemIcon, ListItemText} from "@mui/material";
+import {ListItemIcon, ListItemText, MenuItem, Menu, Avatar, Link, Typography} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
+import {useDispatch, useSelector} from "react-redux";
+import {Link as RouterLink} from 'react-router-dom';
+
+import {setDefaultUser, toggleAuth} from "../Store/slices/userSlice";
 
 const UserAvatarSmall = () => {
     const settings = React.useMemo(()=> {
         return [
-            {label: "Profile", icon: <PersonIcon/>},
-            {label: "Logout", icon: <LogoutIcon/>}
+            {label: "Profile", to: '/', icon: <PersonIcon/>},
         ]
     },[]);
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -26,19 +27,24 @@ const UserAvatarSmall = () => {
         setAnchorElUser(null);
     };
 
+    const evalLogout = () => {
+        dispatch(setDefaultUser());
+        dispatch(toggleAuth());
+        handleCloseUserMenu();
+    }
+
     return (
         <>
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    <Avatar sx={{width: 56, height: 56}} alt={user.name} src={process.env.REACT_APP_BASE_URL + user.image} />
                 </IconButton>
             </Tooltip>
             <Menu
-                sx={{ mt: '45px' }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
-                    vertical: 'top',
+                    vertical: 'bottom',
                     horizontal: 'right',
                 }}
                 keepMounted
@@ -50,15 +56,25 @@ const UserAvatarSmall = () => {
                 onClose={handleCloseUserMenu}
             >
                 {settings.map((setting) => (
-                    <MenuItem key={setting.label} onClick={handleCloseUserMenu}>
-                        <ListItemIcon>
-                            {setting.icon}
-                        </ListItemIcon>
-                        <ListItemText>
-                            {setting.label}
-                        </ListItemText>
-                    </MenuItem>
+                    <Link component={RouterLink} to={setting.to} color='inherit' underline={'none'}>
+                        <MenuItem key={setting.label} onClick={handleCloseUserMenu}>
+                            <ListItemIcon>
+                                {setting.icon}
+                            </ListItemIcon>
+                            <ListItemText>
+                                {setting.label}
+                            </ListItemText>
+                        </MenuItem>
+                    </Link>
                 ))}
+                <MenuItem onClick={evalLogout}>
+                    <ListItemIcon>
+                        <LogoutIcon/>
+                    </ListItemIcon>
+                    <ListItemText>
+                        Logout
+                    </ListItemText>
+                </MenuItem>
             </Menu>
 
         </>

@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import SportsVolleyballIcon from '@mui/icons-material/SportsVolleyball';
 import Typography from "@mui/material/Typography";
 import {Card, CardActionArea} from "@mui/material";
+import {Link} from "react-router-dom";
 
 
 const LogoName = () => {
@@ -15,8 +16,8 @@ const LogoName = () => {
             }}
         >
             <CardActionArea
-                component="a"
-                href="/"
+                component={Link}
+                to={'/'}
                 sx={{
                     p: 2,
                 }}

@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 
 const {User} = require("../models/models");
 
-function generateToken(id, email, role) {
+function generateToken(id, email, name, image, role) {
     return jwt.sign(
-        {id, email, role},
+        {id, email, name, image, role},
         process.env.SECRET_KEY,
         {expiresIn: '24h'}
     );
@@ -43,7 +43,7 @@ class UserController {
             }
             const hashPassword = await bcrypt.hash(password, 5);
             const newUser = await User.create({name, email, password: hashPassword, role, image: fileName})
-            const token = generateToken(newUser.id, newUser.email, newUser.role)
+            const token = generateToken(newUser.id, newUser.email, newUser.name, newUser.image, newUser.role)
 
 
             res.status(201);
@@ -69,7 +69,7 @@ class UserController {
             return next(ApiError.notAuthorized("Wrong email or password"));
         }
 
-        const token = generateToken(existingUser.id, existingUser.email, existingUser.role);
+        const token = generateToken(existingUser.id, existingUser.email, existingUser.name, existingUser.image, existingUser.role);
         res.status(200);
         return res.json({token});
     }

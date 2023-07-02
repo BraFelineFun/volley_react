@@ -7,10 +7,11 @@ export const registration = async function (email, password) {
             {email, password, role: 'admin'}
         );
         localStorage.setItem('token', data.token);
-        return jwtDecode(data.token);
+        return {success:true, body: jwtDecode(data.token)};
     }
-    catch (e) {
-        console.log(e)
+    catch (error) {
+        const msg = error.response.data.message || undefined;
+        return {success:false, body: msg};
     }
 }
 
@@ -23,14 +24,15 @@ export const login = async function (email, password) {
         return {success:true, body: jwtDecode(data.token)};
     }
     catch (error) {
-        return {success:false, body: error.response.data.message};
+        const msg = error.response.data.message || undefined;
+        return {success:false, body: msg};
     }
 }
 
+
+
 export const check = async function () {
-    const {data} = await $authHost.get('api/user/auth',
-        {email, password}
-    );
+    const {data} = await $authHost.get('api/user/auth',);
     localStorage.setItem('token', data.token);
     return {success:true, body: jwtDecode(data.token)};
 }
