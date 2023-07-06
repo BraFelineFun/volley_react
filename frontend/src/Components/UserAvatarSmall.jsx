@@ -56,8 +56,8 @@ const UserAvatarSmall = () => {
                 onClose={handleCloseUserMenu}
             >
                 {settings.map((setting) => (
-                    <Link component={RouterLink} to={setting.to} color='inherit' underline={'none'}>
-                        <MenuItem key={setting.label} onClick={handleCloseUserMenu}>
+                    <Link key={setting.label} component={RouterLink} to={setting.to} color='inherit' underline={'none'}>
+                        <MenuItem  onClick={handleCloseUserMenu}>
                             <ListItemIcon>
                                 {setting.icon}
                             </ListItemIcon>

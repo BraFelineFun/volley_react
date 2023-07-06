@@ -50,7 +50,8 @@ User.hasOne(Team, {
 });
 Team.belongsTo(User, {
     onDelete: 'SET NULL',
-    foreignKey: 'key_leader'
+    foreignKey: 'key_leader',
+    as: 'leader'
 });
 
 Player.belongsToMany(Team, {through: Team_2_Player, foreignKey: 'key_player'});

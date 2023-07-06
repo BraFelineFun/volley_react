@@ -22,7 +22,8 @@ const Login = () => {
             dispatch(setUserData(res.body));
             dispatch(toggleAuth());
             navigate('/', {replace: true});
-        } else {
+        }
+        else {
             const msg = res.body || "Произошла ошибка!";
             setError(msg);
         }

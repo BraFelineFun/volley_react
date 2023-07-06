@@ -1,6 +1,5 @@
 import {CssBaseline} from "@mui/material";
-import {Box, createTheme, ThemeProvider} from "@mui/system";
-import useTheme from "@mui/material/styles/useTheme";
+import {Box} from "@mui/system";
 import Header from "./Components/Header";
 import TeamCardSmall from "./Components/TeamCardSmall";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
@@ -9,10 +8,11 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import {Provider} from "react-redux";
 import store from './Store/store';
+import Teams from "./Pages/Teams";
 
 
 function getRouter() {
-    const router = createBrowserRouter([
+    return createBrowserRouter([
         {
             path: "/",
             element: <Root/>,
@@ -24,7 +24,7 @@ function getRouter() {
                 },
                 {
                     path: '/teams',
-                    element: <TeamCardSmall/>
+                    element: <Teams/>
                 }
             ]
         },
@@ -33,7 +33,6 @@ function getRouter() {
             element: <Login/>
         }
     ]);
-    return router;
 }
 
 

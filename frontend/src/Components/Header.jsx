@@ -13,8 +13,16 @@ import {useSelector} from "react-redux";
 
 function ResponsiveAppBar() {
     const user = useSelector(state => state.user);
-    const pages = ['Products', 'Pricing', 'Blog'];  // Общедоступные
-                                                    // ЛК отдельно в аватаре
+    const pages = [
+        {
+            label: 'Teams',
+            to: '/teams'
+        },
+        {
+            label: 'Contacts',
+            to: '/'
+        }
+    ];
 
 
     return (

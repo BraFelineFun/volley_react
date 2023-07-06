@@ -1,26 +1,30 @@
 import React from 'react';
-import {Card, CardActionArea, CardContent, CardMedia} from "@mui/material";
+import {Card, CardActionArea, CardContent, CardMedia, Link} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-const TeamCardSmall = () => {
+const placeholder = 'https://placehold.co/500x500';
+
+const TeamCardSmall = ({name, image = placeholder, leader = null, playerCount = 0}) => {
     return (
         <Card sx={{ bgcolor: 'primary.light' }} >
-            <CardActionArea sx={{
+            <Box sx={{
                 display: 'flex',
                 justifyContent: 'flex-start',
                 flexDirection: {xs: 'column', md: 'row'}
             }}>
-                <CardMedia
-                    component='img'
-                    sx={{
-                        height: 160,
-                        width: {xs: '100%', md: 150},
-                        color: 'primary.contrastText'
-                    }}
-                    image='https://placehold.co/500x500'
-                    alt='teamImage'
-                />
+                <CardActionArea>
+                    <CardMedia
+                        component='img'
+                        sx={{
+                            height: 160,
+                            width: {xs: '100%', md: 150},
+                            color: 'primary.contrastText'
+                        }}
+                        image={(!!image)? process.env.REACT_APP_BASE_URL + image : placeholder}
+                        alt='teamImage'
+                    />
+                </CardActionArea>
                 <CardContent sx={{
                     p: 2,
                     width: 1,
@@ -28,7 +32,7 @@ const TeamCardSmall = () => {
                 }}
                 >
                     <Typography sx={{fontWeight: 'bold'}} align='right' variant='h4'>
-                        TeamName
+                        {name}
                     </Typography>
                     <Box
                         display='flex'
@@ -36,30 +40,44 @@ const TeamCardSmall = () => {
                         flexWrap='wrap'
                     >
 
-                        {['cell1', 'cell2', 'cell3', 'cell4', 'cell5'].map((cell) => (
-                            <Card
-                                variant='outlined'
-                                key={cell}
-                                sx={{
-                                    bgcolor: 'primary.contrastText',
-                                    color: 'grey.800',
-                                    p:1
-                                }}
+                        <Card
+                            variant='outlined'
+                            sx={{
+                                bgcolor: 'primary.contrastText',
+                                color: 'grey.800',
+                                p:1
+                            }}
+                        >
 
-                            >
-                                <Typography sx={{fontWeight: 'bold'}} variant='subtitle1'>
-                                    {cell}
-                                </Typography>
-                                <Typography variant='body2'>
-                                    Cell body asdfasdf asd
-                                </Typography>
-                            </Card>
-                            )
-                        )}
+                            <Typography sx={{fontWeight: 'bold'}} variant='subtitle1'>
+                                Leader:
+                            </Typography>
+                            <Typography variant='body2'>
+                                <Link to={'/'}>
+                                    {leader?.name || '...'}
+                                </Link>
+                            </Typography>
+                        </Card>
+
+                        <Card
+                            variant='outlined'
+                            sx={{
+                                bgcolor: 'primary.contrastText',
+                                color: 'grey.800',
+                                p:1
+                            }}
+                        >
+                            <Typography sx={{fontWeight: 'bold'}} variant='subtitle1'>
+                                Player Count:
+                            </Typography>
+                            <Typography variant='body2'>
+                                {playerCount}
+                            </Typography>
+                        </Card>
                     </Box>
                 </CardContent>
 
-            </CardActionArea>
+            </Box>
         </Card>
     );
 };
