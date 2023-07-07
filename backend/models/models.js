@@ -38,11 +38,13 @@ const Team_2_Player = seq.define('TEAM_2_PLAYER', {
 
 
 User.hasOne(Player, {
-    foreignKey: 'key_user'
+    foreignKey: 'key_user',
+    as: 'userPlayer'
 });
 Player.belongsTo(User, {
     onDelete: 'CASCADE',
-    foreignKey: 'key_user'
+    foreignKey: 'key_user',
+    as: 'playerUser'
 });
 
 User.hasOne(Team, {
@@ -54,8 +56,16 @@ Team.belongsTo(User, {
     as: 'leader'
 });
 
-Player.belongsToMany(Team, {through: Team_2_Player, foreignKey: 'key_player'});
-Team.belongsToMany(Player, {through: Team_2_Player, foreignKey: 'key_team'});
+Player.belongsToMany(Team, {
+    through: Team_2_Player,
+    foreignKey: 'key_player',
+    as: 'teams'
+});
+Team.belongsToMany(Player, {
+    through: Team_2_Player,
+    foreignKey: 'key_team',
+    as: 'players'
+});
 
 module.exports = {
     User, Player, Team, Team_2_Player

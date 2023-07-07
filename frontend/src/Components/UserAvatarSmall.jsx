@@ -8,11 +8,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link as RouterLink} from 'react-router-dom';
 
 import {setDefaultUser, toggleAuth} from "../Store/slices/userSlice";
+import {PROFILE_ROUTE} from "../utils/consts";
 
 const UserAvatarSmall = () => {
     const settings = React.useMemo(()=> {
         return [
-            {label: "Profile", to: '/', icon: <PersonIcon/>},
+            {label: "Profile", to: PROFILE_ROUTE, icon: <PersonIcon/>},
         ]
     },[]);
 

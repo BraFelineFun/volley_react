@@ -11,8 +11,10 @@ class TeamController {
             include: [
                 {
                     model: Player,
+                    as: 'players',
                     attributes: [],
                     through: {
+                        where: {status: 'approved'},
                         attributes: []
                     }
                 },
@@ -23,8 +25,8 @@ class TeamController {
                 }
             ],
             attributes: {
-                include: [ // this adds AVG attribute to others instead of rewriting
-                    [seq.fn('COUNT', seq.col('PLAYERS.id')), 'playerCount'],
+                include: [
+                    [seq.fn('COUNT', seq.col('players.id')), 'playerCount'],
                 ],
             },
             group: ['Team.id']
@@ -36,21 +38,47 @@ class TeamController {
     }
     async getOne (req, res, next) {
         const {id} = req.params;
-        const team = await Team.findByPk(id);
-        const players = await Team_2_Player.findAll({
-            where: {
-                key_team: id
-            },
-            attributes: {
-                exclude: ['key_team']
-            }
+        const team = await Team.findByPk(id, {
+            attributes: {exclude: 'key_leader'},
+            include: [
+                {
+                    model: Player,
+                    as: 'players',
+                    attributes: {
+                        exclude: ['key_user','createdAt', 'updatedAt'],
+                    },
+                    through: {
+                        attributes: ['status']
+                    },
+                    include: {
+                        model: User,
+                        as: 'playerUser',
+                        attributes: {
+                            exclude: ['password', 'role', 'createdAt', 'updatedAt']
+                        }
+                    }
+                },
+                {
+                    model: User,
+                    as: 'leader',
+                    attributes: ['id', 'name']
+                }
+            ],
         });
+        // const players = await Team_2_Player.findAll({
+        //     where: {
+        //         key_team: id
+        //     },
+        //     attributes: {
+        //         exclude: ['key_team']
+        //     }
+        // });
 
         if (!team) {
             return next(ApiError.forbidden("Not found"));
         }
         res.status(200);
-        return res.json({...team.dataValues, players});
+        return res.json(team);
     }
     async create (req, res, next) {
         try {

@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {Box, Container, Grid, Link, Paper, TextField, Typography} from "@mui/material";
 import LogoName from "../Components/LogoName";
-import LoginButton from "../Components/LoginButton";
+import LoginButton from "../Components/UI/LoginButton";
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {login} from "../http/userApi";
 import CloseIcon from '@mui/icons-material/Close';
 import {useDispatch} from "react-redux";
 import {setUserData, toggleAuth} from "../Store/slices/userSlice";
+import {MAIN_ROUTE, SIGNUP_ROUTE} from "../utils/consts";
 
 
 const Login = () => {
@@ -107,12 +108,13 @@ const Login = () => {
                     gap: 1
                 }}>
                     <Grid item xs whiteSpace={"nowrap"}>
-                        <Link component={RouterLink} to="/" variant="body2">
+                        <Link component={RouterLink} to={MAIN_ROUTE} variant="body2">
                             Forgot password?
                         </Link>
                     </Grid>
+                    {/*TODO: forgot password and signUp*/}
                     <Grid item xs whiteSpace={"nowrap"}>
-                        <Link component={RouterLink} to="/" variant="body2">
+                        <Link component={RouterLink} to={SIGNUP_ROUTE} variant="body2">
                             Don't have an account? Sign Up
                         </Link>
                     </Grid>

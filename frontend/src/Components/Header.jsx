@@ -8,25 +8,26 @@ import PageList from "./PageList";
 import UserAvatarSmall from "./UserAvatarSmall";
 import {Link, Typography} from "@mui/material";
 import {Link as RouterLink} from 'react-router-dom';
-import LoginButton from "./LoginButton";
+import LoginButton from "./UI/LoginButton";
 import {useSelector} from "react-redux";
+import {MAIN_ROUTE, TEAMS_ROUTE} from "../utils/consts";
 
 function ResponsiveAppBar() {
     const user = useSelector(state => state.user);
     const pages = [
         {
             label: 'Teams',
-            to: '/teams'
+            to: TEAMS_ROUTE
         },
         {
             label: 'Contacts',
-            to: '/'
+            to: MAIN_ROUTE
         }
     ];
 
 
     return (
-        <AppBar position="sticky">
+        <AppBar position="sticky" sx={{maxHeight: '80px'}}>
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <Box

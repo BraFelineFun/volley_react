@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Typography} from "@mui/material";
+import {Box, CircularProgress, Skeleton, Typography} from "@mui/material";
 import {getAllTeams} from "../http/teamApi";
 import CloseIcon from "@mui/icons-material/Close";
-import TeamCardSmall from "../Components/TeamCardSmall";
+import TeamCard from "../Components/TeamCard";
+import {infiniteLoading} from "../http/TESTinfiniteLoading";
 
 const Teams = () => {
     const [teams, setTeams] = useState([]);
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     async function fetchTeams() {
+        // const res = await infiniteLoading();
         const res = await getAllTeams();
         if (res.success) {
             setTeams(res.body);
@@ -21,13 +24,27 @@ const Teams = () => {
 
 
     useEffect(() => {
-        fetchTeams();
+        fetchTeams().then(
+            () => setIsLoading(false),
+            () => setIsLoading(false)
+        );
 
     }, [])
 
 
     return (
         <Box>
+            {isLoading &&
+                <Box
+                    sx={{
+                        width: 1,
+                        display: 'flex',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <CircularProgress size={56}/>
+                </Box>
+            }
             {!!error &&
                 <Box sx={{
                     bgcolor: 'error.main',
@@ -49,7 +66,8 @@ const Teams = () => {
             <Box display={'flex'} gap={3} flexDirection={'column'}>
                 {teams.map((team) =>
                     <Box key={team.id}>
-                        <TeamCardSmall
+                        <TeamCard
+                            id={team.id}
                             name={team.name}
                             image={team.image}
                             leader={team.leader}

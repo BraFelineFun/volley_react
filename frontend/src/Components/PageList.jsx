@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {Link} from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
-import PageLink from "./PageLink";
+import PageLink from "./UI/PageLink";
 
 
 const PageList = ({pages}) => {
@@ -56,7 +56,7 @@ const PageList = ({pages}) => {
                 >
                     {pages.map((page) => (
                         <MenuItem key={page.label} onClick={handleCloseNavMenu}>
-                            <PageLink to={page.to} >
+                            <PageLink to={page.to} underline={'none'}>
                                 {page.label}
                             </PageLink>
                         </MenuItem>
@@ -71,7 +71,7 @@ const PageList = ({pages}) => {
                         key={page.label}
                         sx={{color: 'white', display: 'block' }}
                     >
-                        <PageLink to={page.to} >
+                        <PageLink to={page.to} underline={'none'}>
                             {page.label}
                         </PageLink>
                     </Button>

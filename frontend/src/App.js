@@ -1,7 +1,7 @@
 import {CssBaseline} from "@mui/material";
 import {Box} from "@mui/system";
 import Header from "./Components/Header";
-import TeamCardSmall from "./Components/TeamCardSmall";
+import TeamCard from "./Components/TeamCard";
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import Error from "./Pages/Error";
 import Home from "./Pages/Home";
@@ -9,6 +9,7 @@ import Login from "./Pages/Login";
 import {Provider} from "react-redux";
 import store from './Store/store';
 import Teams from "./Pages/Teams";
+import Team from "./Pages/Team";
 
 
 function getRouter() {
@@ -25,6 +26,10 @@ function getRouter() {
                 {
                     path: '/teams',
                     element: <Teams/>
+                },
+                {
+                    path: '/team/:id',
+                    element: <Team/>
                 }
             ]
         },
@@ -46,7 +51,7 @@ function Root() {
                     bgcolor: 'background.paper',
                     maxWidth: "lg",
                     minWidth: 300,
-                    minHeight: '100vh',
+                    minHeight: 'calc(100vh - 80px)',
                     p: {xs: 1, sm: 3}
                 }}>
                     <Outlet/>
