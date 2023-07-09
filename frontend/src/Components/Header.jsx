@@ -10,7 +10,7 @@ import {Link, Typography} from "@mui/material";
 import {Link as RouterLink} from 'react-router-dom';
 import LoginButton from "./UI/LoginButton";
 import {useSelector} from "react-redux";
-import {MAIN_ROUTE, TEAMS_ROUTE} from "../utils/consts";
+import {LOGIN_ROUTE, MAIN_ROUTE, TEAMS_ROUTE} from "../utils/consts";
 
 function ResponsiveAppBar() {
     const user = useSelector(state => state.user);
@@ -48,7 +48,7 @@ function ResponsiveAppBar() {
                             <UserAvatarSmall/>
                         :
                             <Box>
-                                <Link component={RouterLink} to={'/login'}>
+                                <Link component={RouterLink} to={LOGIN_ROUTE}>
                                     <LoginButton/>
                                 </Link>
                             </Box>

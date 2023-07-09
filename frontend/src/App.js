@@ -10,12 +10,15 @@ import {Provider} from "react-redux";
 import store from './Store/store';
 import Teams from "./Pages/Teams";
 import Team from "./Pages/Team";
+import {MAIN_ROUTE, TEAM_ROUTE, TEAMS_ROUTE, USER_ROUTE, USERS_ROUTE} from "./utils/consts";
+import Users from "./Pages/Users";
+import User from "./Pages/User";
 
 
 function getRouter() {
     return createBrowserRouter([
         {
-            path: "/",
+            path: MAIN_ROUTE,
             element: <Root/>,
             errorElement: <Error/>,
             children: [
@@ -24,13 +27,26 @@ function getRouter() {
                     element: <Home/>
                 },
                 {
-                    path: '/teams',
+                    path: TEAMS_ROUTE,
                     element: <Teams/>
                 },
                 {
-                    path: '/team/:id',
+                    path: TEAM_ROUTE + '/:id',
                     element: <Team/>
+                },
+                {
+                    path: TEAM_ROUTE,
+                    element: <Team/>
+                },
+                {
+                    path: USERS_ROUTE,
+                    element: <Users/>
+                },
+                {
+                    path: USER_ROUTE + '/:id',
+                    element: <User/>
                 }
+
             ]
         },
         {

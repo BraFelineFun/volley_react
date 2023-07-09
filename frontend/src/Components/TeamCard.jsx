@@ -6,8 +6,19 @@ import {TEAM_ROUTE, USER_ROUTE} from "../utils/consts";
 
 const placeholder = 'https://placehold.co/500x500';
 
+
+
 const TeamCard = ({id, name, image = placeholder, leader = null, playerCount = 0}) => {
     const navigate = useNavigate();
+
+    function navigateLeaderPage(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!leader?.id)
+            return;
+        navigate(leader?.id? `${USER_ROUTE}/${leader.id}`: '/');
+    }
+
     return (
         <Card sx={{ bgcolor: 'primary.light' }} >
             <CardActionArea
@@ -56,13 +67,7 @@ const TeamCard = ({id, name, image = placeholder, leader = null, playerCount = 0
                                 Leader:
                             </Typography>
                             <PageLink
-                                {/*TODO: Переадресация перезагружает страницу*/}
-                                onClick={(e) => {e.stopPropagation()}}
-                                to={
-                                    leader?.id?
-                                        `${USER_ROUTE}/${leader.id}`:
-                                        '/'
-                            }>
+                                onClick={navigateLeaderPage}>
                                 {leader?.name || '...'}
                             </PageLink>
                         </Card>

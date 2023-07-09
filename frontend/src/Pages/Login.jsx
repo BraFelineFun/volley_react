@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Container, Grid, Link, Paper, TextField, Typography} from "@mui/material";
+import {Box, Container, CssBaseline, Grid, Link, Paper, TextField, Typography} from "@mui/material";
 import LogoName from "../Components/LogoName";
 import LoginButton from "../Components/UI/LoginButton";
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
@@ -37,90 +37,99 @@ const Login = () => {
 
 
     return (
-        <Container sx={{minHeight: '100vh'}} maxWidth={"sm"}>
-            <Box
-                component={Paper}
-                display={'flex'}
-                flexDirection={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                elevation={2}
-
-                sx={{
-                    p: {xs: 3, sm: 6, md: 8}
-                }}
+        <CssBaseline>
+            <Container sx={{
+                minHeight: '100vh',
+                display:'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }} maxWidth={"sm"}
             >
-                <Box maxWidth={180}>
-                    <Typography variant={'subtitle1'} textAlign={'center'}>
-                        Sign in to
-                    </Typography>
-                    <LogoName/>
-                </Box>
+                <Box
+                    component={Paper}
+                    display={'flex'}
+                    flexDirection={'column'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    elevation={2}
 
-                {!!error &&
-                    <Box sx={{
-                        bgcolor: 'error.main',
-                        py: 1,
-                        width: 1,
-                        color: 'error.contrastText',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        borderRadius: 1
-                    }}>
-                        <Typography>
-                            {error}
+                    sx={{
+                        p: {xs: 3, sm: 6, md: 8}
+                    }}
+                >
+                    <Box maxWidth={180}>
+                        <Typography variant={'subtitle1'} textAlign={'center'}>
+                            Sign in to
                         </Typography>
-                        <CloseIcon onClick={() => setError('')}/>
+                        <LogoName/>
                     </Box>
-                }
+
+                    {!!error &&
+                        <Box sx={{
+                            bgcolor: 'error.main',
+                            py: 1,
+                            width: 1,
+                            color: 'error.contrastText',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            borderRadius: 1
+                        }}>
+                            <Typography>
+                                {error}
+                            </Typography>
+                            <CloseIcon onClick={() => setError('')}/>
+                        </Box>
+                    }
 
 
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Email Address"
-                        autoComplete="email"
-                        autoFocus
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Password"
-                        type={'password'}
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </Box>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Email Address"
+                            autoComplete="email"
+                            autoFocus
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Password"
+                            type={'password'}
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Box>
 
-                <Box my={3} width={1}>
-                    <LoginButton onClick={handleSubmit}/>
-                </Box>
+                    <Box my={3} width={1}>
+                        <LoginButton onClick={handleSubmit}/>
+                    </Box>
 
-                <Grid container sx={{
-                    flexDirection: {xs: 'column', sm: 'row'},
-                    alignItems: 'center',
-                    gap: 1
-                }}>
-                    <Grid item xs whiteSpace={"nowrap"}>
-                        <Link component={RouterLink} to={MAIN_ROUTE} variant="body2">
-                            Forgot password?
-                        </Link>
+                    <Grid container sx={{
+                        flexDirection: {xs: 'column', sm: 'row'},
+                        alignItems: 'center',
+                        gap: 1
+                    }}>
+                        <Grid item xs whiteSpace={"nowrap"}>
+                            <Link component={RouterLink} to={MAIN_ROUTE} variant="body2">
+                                Forgot password?
+                            </Link>
+                        </Grid>
+                        {/*TODO: forgot password and signUp*/}
+                        <Grid item xs whiteSpace={"nowrap"}>
+                            <Link component={RouterLink} to={SIGNUP_ROUTE} variant="body2">
+                                Don't have an account? Sign Up
+                            </Link>
+                        </Grid>
                     </Grid>
-                    {/*TODO: forgot password and signUp*/}
-                    <Grid item xs whiteSpace={"nowrap"}>
-                        <Link component={RouterLink} to={SIGNUP_ROUTE} variant="body2">
-                            Don't have an account? Sign Up
-                        </Link>
-                    </Grid>
-                </Grid>
-            </Box>
-        </Container>
+                </Box>
+            </Container>
+        </CssBaseline>
+
     );
 };
 

@@ -20,6 +20,7 @@ export const getOneTeam = async function (id) {
         return {success:true, body: data};
     }
     catch (error) {
+        console.log(error)
         const msg = error?.response?.data?.message || undefined;
         return {success:false, body: msg};
     }
