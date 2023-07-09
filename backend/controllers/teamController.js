@@ -65,17 +65,9 @@ class TeamController {
                 }
             ],
         });
-        // const players = await Team_2_Player.findAll({
-        //     where: {
-        //         key_team: id
-        //     },
-        //     attributes: {
-        //         exclude: ['key_team']
-        //     }
-        // });
 
         if (!team) {
-            return next(ApiError.forbidden("Not found"));
+            return next(ApiError.badRequest("Not found"));
         }
         res.status(200);
         return res.json(team);
