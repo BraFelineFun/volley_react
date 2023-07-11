@@ -1,11 +1,20 @@
-import {React, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import {getAllTeams, getOneTeam} from "../http/teamApi";
-import {Avatar, Box, CircularProgress, Grid, Paper, Tab, Tabs, Typography} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import {getOneTeam} from "../http/teamApi";
+import {
+    Avatar,
+    Box,
+    CircularProgress,
+    Grid,
+    Tab,
+    Tabs,
+    Typography
+} from "@mui/material";
 import {TEAMS_ROUTE} from "../utils/consts";
-import NotFound from "../Components/UI/NotFound";
 import Error from "../Components/UI/Error";
+import TeamPlayerSection from "../Components/TeamPlayerSection";
+import TeamGameSection from "../Components/TeamGameSection";
+import UserCard from "../Components/UserCard";
 
 const Team = () => {
     const {id} = useParams();
@@ -66,45 +75,79 @@ const Team = () => {
             {!!error?
                 <Error error={error} setError={setError}/>
                 :
-                <Grid spacing={2} container width={'100%'}>
-                    <Grid
-                        md={12}
-                        component={Paper}
-                        item
-                        display='flex'
-                        justifyContent='space-between'
-                        alignItems='center'
-                        p={2}
-                    >
-                        <Box>
-                            <Typography variant='h2' fontWeight='bold'>
-                                {team.name}
+                <Grid
+                    container
+                    width={'100%'}
+                >
+                    <Grid xs={12}>
+                        <Grid
+                            xs={12}
+                            item
+                            display='flex'
+                            justifySelf='center'
+                            justifyContent='space-between'
+                            alignItems='center'
+                            p={2}
+                            sx={{
+                                flexDirection: {xs: 'column-reverse', sm: 'row'}
+                            }}
+                        >
+                            <Box>
+                                <Typography variant='h2' fontWeight='bold'>
+                                    {team.name}
+                                </Typography>
+                                <Typography fontStyle='italic' variant='subtitle1'>
+                                    founded: {fomateDate(team.createdAt)}
+                                </Typography>
+                            </Box>
+                            <Box>
+                                <Avatar
+                                    sx={{
+                                        width: 90,
+                                        height: 90,
+                                        bgcolor: 'secondary.main',
+                                        color: 'secondary.contrastText',
+                                        border: 2,
+                                        borderColor: 'secondary.main'
+                                    }}
+                                    alt={team.name + ' team avatar'}
+                                    src={process.env.REACT_APP_BASE_URL + team.image || undefined}
+                                />
+                            </Box>
+                        </Grid>
+                        <Grid
+                            xs={12}
+                            sm={5}
+                            item
+                        >
+                            <Typography>
+                                Club leader:
                             </Typography>
-                            <Typography fontStyle='italic' variant='subtitle1'>
-                                founded: {fomateDate(team.createdAt)}
-                            </Typography>
-                        </Box>
-                        <Box>
-                            <Avatar
-                                sx={{
-                                    width:80,
-                                    height: 80,
-                                    bgcolor: 'secondary.main',
-                                    color: 'secondary.contrastText'
-                                }}
-                                alt={team.name + ' team avatar'}
-                                src={process.env.REACT_APP_BASE_URL + team.image || null}
-                            />
-                        </Box>
+                            {!isLoading &&
+                                <UserCard
+                                    id={team.leader.id}
+                                    name={team.leader.name}
+                                />
+                            }
+                        </Grid>
                     </Grid>
-                    <Grid item>
+
+                    <Grid xs={12} mt={2} item>
                         <Tabs
                             value={tabView}
                             onChange={(e, newValue) => setTabView(newValue)}
                         >
                             <Tab value='Players' label='Players'/>
-                            <Tab value='Games' label='Games' disabled/>
+                            <Tab value='Games' label='Games' />
                         </Tabs>
+                    </Grid>
+                    <Grid xs={12} item p={1} sx={{bgcolor: 'grey.200'}}>
+                        {tabView === 'Players' &&
+                            <TeamPlayerSection players={team.players}/>
+                        }
+                        {tabView === 'Games' &&
+                            <TeamGameSection/>
+                        }
                     </Grid>
                 </Grid>
             }

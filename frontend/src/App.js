@@ -10,7 +10,7 @@ import {Provider} from "react-redux";
 import store from './Store/store';
 import Teams from "./Pages/Teams";
 import Team from "./Pages/Team";
-import {MAIN_ROUTE, TEAM_ROUTE, TEAMS_ROUTE, USER_ROUTE, USERS_ROUTE} from "./utils/consts";
+import {LOGIN_ROUTE, MAIN_ROUTE, TEAM_ROUTE, TEAMS_ROUTE, USER_ROUTE, USERS_ROUTE} from "./utils/consts";
 import Users from "./Pages/Users";
 import User from "./Pages/User";
 
@@ -50,7 +50,7 @@ function getRouter() {
             ]
         },
         {
-            path: '/login',
+            path: LOGIN_ROUTE,
             element: <Login/>
         }
     ]);
@@ -65,8 +65,9 @@ function Root() {
             <Box display='flex' justifyContent='center' alignItems='center'>
                 <Box sx={{
                     bgcolor: 'background.paper',
-                    maxWidth: "lg",
+                    maxWidth: "md",
                     minWidth: 300,
+                    width: 1,
                     minHeight: 'calc(100vh - 80px)',
                     p: {xs: 1, sm: 3}
                 }}>
